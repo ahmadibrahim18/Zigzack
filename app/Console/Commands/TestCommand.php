@@ -3,7 +3,12 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-
+use app\models\category;
+use app\models\favorite;
+use app\models\history;
+use app\models\playlist;
+use app\models\user;
+use app\models\video;
 class TestCommand extends Command
 {
     /**
@@ -11,7 +16,7 @@ class TestCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'app:test-command';
+    protected $signature = 'app:test';
 
     /**
      * The console command description.
