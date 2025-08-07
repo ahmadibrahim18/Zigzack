@@ -33,7 +33,21 @@ class User extends Authenticatable
         'remember_token',
     ];
 
+    public function playlist(): HasOne
+    {
+        return $this->hasOne(playlist::class);
+    }
+
+    public function history(): HasOne
+    {
+        return $this->hasOne(history::class);
+    }
+    public function favorite(): HasOne
+    {
+        return $this->hasOne(favorite::class);
+    }
     /**
+    
      * Get the attributes that should be cast.
      *
      * @return array<string, string>
