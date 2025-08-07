@@ -11,4 +11,9 @@ class favorite extends Model
     {
         return $this->belongsTo(User::class);
     }
+    public function video(): BelongsTo
+    {
+        return $this->belongsTo(video::class);
+    }
+    
 }
