@@ -33,19 +33,22 @@ class User extends Authenticatable
         'remember_token',
     ];
 
-    public function playlist(): HasOne
+    public function playlist(): Hasmany
     {
-        return $this->hasOne(playlist::class);
+        return $this->hasMany(playlist::class);
+    }
+    public function category(): HasMany
+    {
+        return $this->hasMany(category::class);
+    }
+    public function history(): HasMany
+    {
+        return $this->hasMany(history::class);
     }
 
-    public function history(): HasOne
+    public function favorite(): HasMany
     {
-        return $this->hasOne(history::class);
-    }
-    
-    public function favorite(): HasOne
-    {
-        return $this->hasOne(favorite::class);
+        return $this->hasMany(favorite::class);
     }
     /**
     

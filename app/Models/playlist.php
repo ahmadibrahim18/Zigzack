@@ -7,4 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 class playlist extends Model
 {
     //
+     public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
+    
 }

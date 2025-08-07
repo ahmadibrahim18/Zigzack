@@ -7,4 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 class favorite extends Model
 {
     //
+     public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
 }
