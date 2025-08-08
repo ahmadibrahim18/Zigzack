@@ -16,6 +16,11 @@ class video extends Model
     {
         return $this->belongsTo(category::class);
     }
+    public function playlist()
+{
+    return $this->belongsToMany(Playlist::class, 'playlist_video')->withTimestamps();
+}
+
 
     public function history(): BelongsTo
     {
@@ -29,4 +34,8 @@ class video extends Model
     {
         return $this->hasOne(playlist_video::class);
     }
+    public function favoritedBy()
+{
+    return $this->belongsToMany(User::class, 'favorite')->withTimestamps();
+}
 }
