@@ -13,6 +13,9 @@ return new class extends Migration
     {
         Schema::create('playlist_video', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('playlist_id')->constrained()->onDelete('cascade');
+            $table->foreignId('video_id')->constrained()->onDelete('cascade');
+            $table->date('added_at')->nullable();
             $table->timestamps();
         });
     }

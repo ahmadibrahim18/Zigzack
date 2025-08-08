@@ -13,6 +13,9 @@ return new class extends Migration
     {
         Schema::create('history', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->foreignId('video_id')->constrained()->onDelete('cascade');
+            $table->timestamp('watched_at')->useCurrent();
             $table->timestamps();
         });
     }
