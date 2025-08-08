@@ -9,6 +9,7 @@ use app\models\history;
 use app\models\playlist;
 use app\models\user;
 use app\models\video;
+use app\models\playlist_video;
 class TestCommand extends Command
 {
     /**
