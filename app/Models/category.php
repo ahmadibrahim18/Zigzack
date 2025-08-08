@@ -7,9 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 class category extends Model
 {
     //
-    public function video():hasmany
+    protected $fillable = ['name', 'description'];
+
+    public function videos(): hasMany
     {
-        return $this->hasMany(video::class);
+        return $this->hasMany(Video::class);
     }
     
 

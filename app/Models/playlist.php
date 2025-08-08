@@ -7,13 +7,19 @@ use Illuminate\Database\Eloquent\Model;
 class playlist extends Model
 {
     //
-     public function user(): BelongsTo
+    protected $fillable = ['user_id', 'name'];
+     public function user(): BelongsToMany
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsToMany(User::class);
     }
     public function videos(): BelongsToMany
     {
-        return $this->belongsToMany(videos::class);
+        return $this->belongsToMany(Videos::class);
+    }
+
+     public function playlist_video(): hasMany
+    {
+        return $this->hasMany(PlaylistVideo::class);
     }
     
 }
