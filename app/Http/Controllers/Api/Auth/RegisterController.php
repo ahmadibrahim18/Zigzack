@@ -13,10 +13,7 @@ class RegisterController extends Controller
 {
     public function register(Request $request)
     {
-        protected $routeMiddleware = [
-    // ...
-    'is_admin' => \App\Http\Middleware\IsAdmin::class,
-];
+    
 
         // Validate the incoming request
         $validator = Validator::make($request->all(), [
