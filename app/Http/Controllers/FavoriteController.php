@@ -20,6 +20,9 @@ class FavoriteController extends Controller
     public function store(Request $request)
     {
         //
+        $validated = $request->validate([
+            'video_id' => 'required|exists:videos,id',
+        ]);
     }
 
     /**
@@ -28,6 +31,8 @@ class FavoriteController extends Controller
     public function show(string $id)
     {
         //
+        $favorite = auth()->user()->favorites()->where('video_id', $id)->firstOrFail();
+        return response()->json($favorite);
     }
 
     /**
@@ -44,5 +49,8 @@ class FavoriteController extends Controller
     public function destroy(string $id)
     {
         //
+        $favorite = auth()->user()->favorites()->where('video_id', $id)->firstOrFail();
+        $favorite->delete();
+        return response()->json(null, 204);
     }
 }
