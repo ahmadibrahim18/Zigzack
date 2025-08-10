@@ -10,58 +10,50 @@ class PaymentController extends Controller
      * Display a listing of the resource.
      */
     public function index()
-    {
-        //
-        // This method should return a list of payments
-        return Payment::all();
+{
+    return response()->json(Payment::all());
+}
+
+public function store(Request $request)
+{
+    $request->validate([
+        'user_id' => 'required|exists:users,id',
+        'amount' => 'required|numeric',
+        'payment_method' => 'required|string',
+        'status' => 'required|string',
+    ]);
+
+    $payment = Payment::create($request->all());
+    return response()->json($payment, 201);
+}
+
+public function show($id)
+{
+    $payment = Payment::find($id);
+    if (!$payment) {
+        return response()->json(['message' => 'Payment not found'], 404);
     }
+    return response()->json($payment);
+}
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-        $data = $request->validate([
-            'user_id' => 'required|exists:users,id',
-            'amount' => 'required|numeric|min:0',
-            'status' => 'required|in:pending,completed,canceled',
-        ]);
-
-        return Payment::create($data);
+public function update(Request $request, $id)
+{
+    $payment = Payment::find($id);
+    if (!$payment) {
+        return response()->json(['message' => 'Payment not found'], 404);
     }
+    $payment->update($request->all());
+    return response()->json($payment);
+}
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        return Payment::findOrFail($id);
+public function destroy($id)
+{
+    $payment = Payment::find($id);
+    if (!$payment) {
+        return response()->json(['message' => 'Payment not found'], 404);
     }
+    $payment->delete();
+    return response()->json(['message' => 'Payment deleted']);
+}
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        $data = $request->validate([
-            'user_id' => 'sometimes|exists:users,id',
-            'amount' => 'sometimes|numeric|min:0',
-            'status' => 'sometimes|in:pending,completed,canceled',
-        ]);
-
-        $payment = Payment::findOrFail($id);
-        $payment->update($data);
-        return $payment;
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        $payment = Payment::findOrFail($id);
-        $payment->delete();
-        return response()->noContent();
-    }
 }
