@@ -9,13 +9,17 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up(): void
-    {
-        Schema::create('reviews', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
-        });
-    }
+ public function up()
+{
+    Schema::create('reviews', function (Blueprint $table) {
+        $table->id();
+        $table->foreignId('user_id')->constrained()->onDelete('cascade');
+        $table->foreignId('content_creator_id')->constrained()->onDelete('cascade');
+        $table->integer('rating'); // 1 to 5
+        $table->text('comment')->nullable();
+        $table->timestamps();
+    });
+}
 
     /**
      * Reverse the migrations.
