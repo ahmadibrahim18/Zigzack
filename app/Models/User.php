@@ -32,6 +32,7 @@ class User extends Authenticatable
         'password',
         'remember_token',
     ];
+    
 
     public function playlists(): hasMany
     {
@@ -44,10 +45,29 @@ class User extends Authenticatable
     }
 
    public function favorites()
-{
+    {
     return $this->belongsToMany(Video::class, 'favorites', 'user_id', 'video_id')
                 ->withTimestamps();
-}
+    }
+    public function subscriptions()
+    {
+     return $this->hasMany(Subscription::class);
+    }
+
+    public function payments()
+    {
+        return $this->hasMany(Payment::class);
+    }
+
+    public function reviews()
+    {
+        return $this->hasMany(Review::class);
+    }
+
+
+
+
+
 
     
     /**

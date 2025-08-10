@@ -10,6 +10,10 @@ use App\Http\Controllers\Playlist_videoController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\Api\HistoryController;
+use App\Http\Controllers\ContentCreatorController;
+use App\Http\Controllers\SubscriptionController;
+use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\ReviewController;
 use closure;
 
 class IsAdmin
@@ -88,5 +92,14 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::delete('/history/{id}', [HistoryController::class, 'destroy']);
     Route::delete('/history', [HistoryController::class, 'clear']);
 });
+
+
+Route::middleware('auth:sanctum')->group(function () {
+    Route::apiResource('content-creators', ContentCreatorController::class);
+    Route::apiResource('subscriptions', SubscriptionController::class);
+    Route::apiResource('payments', PaymentController::class);
+    Route::apiResource('reviews', ReviewController::class);
+});
+
 
     // Add more admin routes here
