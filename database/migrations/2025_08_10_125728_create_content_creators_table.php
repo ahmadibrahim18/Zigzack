@@ -9,13 +9,17 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up(): void
-    {
-        Schema::create('content_creators', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
-        });
-    }
+   public function up()
+{
+    Schema::create('content_creators', function (Blueprint $table) {
+        $table->id();
+        $table->string('name');
+        $table->string('email')->unique();
+        $table->text('bio')->nullable();
+        $table->string('profile_picture')->nullable();
+        $table->timestamps();
+    });
+}
 
     /**
      * Reverse the migrations.
