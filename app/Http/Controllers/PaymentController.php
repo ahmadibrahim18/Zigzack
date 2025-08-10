@@ -12,6 +12,8 @@ class PaymentController extends Controller
     public function index()
     {
         //
+        // This method should return a list of payments
+        return Payment::all();
     }
 
     /**
@@ -20,6 +22,13 @@ class PaymentController extends Controller
     public function store(Request $request)
     {
         //
+        $data = $request->validate([
+            'user_id' => 'required|exists:users,id',
+            'amount' => 'required|numeric|min:0',
+            'status' => 'required|in:pending,completed,canceled',
+        ]);
+
+        return Payment::create($data);
     }
 
     /**
@@ -27,7 +36,7 @@ class PaymentController extends Controller
      */
     public function show(string $id)
     {
-        //
+        return Payment::findOrFail($id);
     }
 
     /**
@@ -35,7 +44,15 @@ class PaymentController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $data = $request->validate([
+            'user_id' => 'sometimes|exists:users,id',
+            'amount' => 'sometimes|numeric|min:0',
+            'status' => 'sometimes|in:pending,completed,canceled',
+        ]);
+
+        $payment = Payment::findOrFail($id);
+        $payment->update($data);
+        return $payment;
     }
 
     /**
@@ -43,6 +60,8 @@ class PaymentController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $payment = Payment::findOrFail($id);
+        $payment->delete();
+        return response()->noContent();
     }
 }

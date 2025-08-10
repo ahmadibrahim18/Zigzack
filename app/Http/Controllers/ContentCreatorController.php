@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\ContentCreator;
 use Illuminate\Http\Request;
 
+
 class ContentCreatorController extends Controller
 {
     public function index()

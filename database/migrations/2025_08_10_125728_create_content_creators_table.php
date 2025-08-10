@@ -10,16 +10,17 @@ return new class extends Migration
      * Run the migrations.
      */
    public function up()
-{
+    {
     Schema::create('content_creators', function (Blueprint $table) {
         $table->id();
-        $table->string('name');
-        $table->string('email')->unique();
-        $table->text('bio')->nullable();
-        $table->string('profile_picture')->nullable();
+        $table->foreignId('user_id')->constrained()->onDelete('cascade');
+        $table->string('channel_name');
+        $table->text('description')->nullable();
+        $table->string('profile_image')->nullable();
         $table->timestamps();
     });
-}
+    }
+
 
     /**
      * Reverse the migrations.

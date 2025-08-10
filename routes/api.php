@@ -100,6 +100,36 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('payments', PaymentController::class);
     Route::apiResource('reviews', ReviewController::class);
 });
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/content-creators', [ContentCreatorController::class, 'index']);       // List all content creators
+    Route::post('/content-creators', [ContentCreatorController::class, 'store']);      // Create new content creator
+    Route::get('/content-creators/{id}', [ContentCreatorController::class, 'show']);   // Get a content creator by ID
+    Route::put('/content-creators/{id}', [ContentCreatorController::class, 'update']); // Update content creator
+    Route::delete('/content-creators/{id}', [ContentCreatorController::class, 'destroy']); // Delete content creator
+});
+Route::middleware('auth:sanctum')->group(function () {
+    // Payments
+    Route::get('/payments', [PaymentController::class, 'index']);
+    Route::post('/payments', [PaymentController::class, 'store']);
+    Route::get('/payments/{id}', [PaymentController::class, 'show']);
+    Route::put('/payments/{id}', [PaymentController::class, 'update']);
+    Route::delete('/payments/{id}', [PaymentController::class, 'destroy']);
+
+    // Reviews
+    Route::get('/reviews', [ReviewController::class, 'index']);
+    Route::post('/reviews', [ReviewController::class, 'store']);
+    Route::get('/reviews/{id}', [ReviewController::class, 'show']);
+    Route::put('/reviews/{id}', [ReviewController::class, 'update']);
+    Route::delete('/reviews/{id}', [ReviewController::class, 'destroy']);
+
+    // Subscriptions
+    Route::get('/subscriptions', [SubscriptionController::class, 'index']);
+    Route::post('/subscriptions', [SubscriptionController::class, 'store']);
+    Route::get('/subscriptions/{id}', [SubscriptionController::class, 'show']);
+    Route::put('/subscriptions/{id}', [SubscriptionController::class, 'update']);
+    Route::delete('/subscriptions/{id}', [SubscriptionController::class, 'destroy']);
+});
+
 
 
     // Add more admin routes here
