@@ -115,19 +115,19 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('/payments/{id}', [PaymentController::class, 'update']);
     Route::delete('/payments/{id}', [PaymentController::class, 'destroy']);
 
-    // Reviews
-    Route::get('/reviews', [ReviewController::class, 'index']);
-    Route::post('/reviews', [ReviewController::class, 'store']);
-    Route::get('/reviews/{id}', [ReviewController::class, 'show']);
-    Route::put('/reviews/{id}', [ReviewController::class, 'update']);
-    Route::delete('/reviews/{id}', [ReviewController::class, 'destroy']);
+    // // Reviews
+    // Route::get('/reviews', [ReviewController::class, 'index']);
+    // Route::post('/reviews', [ReviewController::class, 'store']);
+    // Route::get('/reviews/{id}', [ReviewController::class, 'show']);
+    // Route::put('/reviews/{id}', [ReviewController::class, 'update']);
+    // Route::delete('/reviews/{id}', [ReviewController::class, 'destroy']);
 
-    // Subscriptions
-    Route::get('/subscriptions', [SubscriptionController::class, 'index']);
-    Route::post('/subscriptions', [SubscriptionController::class, 'store']);
-    Route::get('/subscriptions/{id}', [SubscriptionController::class, 'show']);
-    Route::put('/subscriptions/{id}', [SubscriptionController::class, 'update']);
-    Route::delete('/subscriptions/{id}', [SubscriptionController::class, 'destroy']);
+    // // Subscriptions
+    // Route::get('/subscriptions', [SubscriptionController::class, 'index']);
+    // Route::post('/subscriptions', [SubscriptionController::class, 'store']);
+    // Route::get('/subscriptions/{id}', [SubscriptionController::class, 'show']);
+    // Route::put('/subscriptions/{id}', [SubscriptionController::class, 'update']);
+    // Route::delete('/subscriptions/{id}', [SubscriptionController::class, 'destroy']);
 });
 
 
