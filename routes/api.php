@@ -122,12 +122,12 @@ Route::middleware('auth:sanctum')->group(function () {
     // Route::put('/reviews/{id}', [ReviewController::class, 'update']);
     // Route::delete('/reviews/{id}', [ReviewController::class, 'destroy']);
 
-    // // Subscriptions
-    // Route::get('/subscriptions', [SubscriptionController::class, 'index']);
-    // Route::post('/subscriptions', [SubscriptionController::class, 'store']);
-    // Route::get('/subscriptions/{id}', [SubscriptionController::class, 'show']);
-    // Route::put('/subscriptions/{id}', [SubscriptionController::class, 'update']);
-    // Route::delete('/subscriptions/{id}', [SubscriptionController::class, 'destroy']);
+    // Subscriptions
+    Route::get('/subscriptions', [SubscriptionController::class, 'index']);
+    Route::post('/subscriptions', [SubscriptionController::class, 'store']);
+    Route::get('/subscriptions/{id}', [SubscriptionController::class, 'show']);
+    Route::put('/subscriptions/{id}', [SubscriptionController::class, 'update']);
+    Route::delete('/subscriptions/{id}', [SubscriptionController::class, 'destroy']);
 });
 
 
