@@ -27,17 +27,18 @@ class video extends Model
     {
         return $this->hasMany(history::class);
     }
-    
-    public function favorite(): belongsTo
+
+    public function favorite(): belongsToMany
     {
-        return $this->belongsTo(Favorite::class);
+        return $this->belongsToMany(Favorite::class);
     }
     public function playlist_video(): hasMany
     {
         return $this->hasMany(PlaylistVideo::class);
     }
-    public function favoritedBy(): BelongsToMany
+public function favoritedBy()
 {
-    return $this->belongsToMany(User::class, 'favorite')->withTimestamps();
+    return $this->belongsToMany(User::class, 'favorites', 'video_id', 'user_id')
+                ->withTimestamps();
 }
 }

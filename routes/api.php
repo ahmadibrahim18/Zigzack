@@ -9,7 +9,7 @@ use App\Http\Controllers\PlaylistController;
 use App\Http\Controllers\Playlist_videoController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\FavoriteController;
-
+use App\Http\Controllers\Api\HistoryController;
 use closure;
 
 class IsAdmin
@@ -79,6 +79,14 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/favorites', [FavoriteController::class, 'store']);
     Route::get('/favorites', [FavoriteController::class, 'index']);
     Route::delete('/favorites/{id}', [FavoriteController::class, 'destroy']);
+});
+
+
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/history', [HistoryController::class, 'index']);
+    Route::post('/history', [HistoryController::class, 'store']);
+    Route::delete('/history/{id}', [HistoryController::class, 'destroy']);
+    Route::delete('/history', [HistoryController::class, 'clear']);
 });
 
     // Add more admin routes here

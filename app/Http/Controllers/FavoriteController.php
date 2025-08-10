@@ -4,6 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Model\favorite;
+use App\Http\Controllers\Controller\VideoController;
+use App\Http\Controllers\Controller\UserController;
+use App\Models\User;
+use App\Models\Video;
 class FavoriteController extends Controller
 {
     /**
@@ -21,8 +25,16 @@ class FavoriteController extends Controller
     {
         //
         $validated = $request->validate([
+            'user_id' => 'required|exists:users,id',
             'video_id' => 'required|exists:videos,id',
+            'favorited_at' => 'nullable|date',
         ]);
+        $validated['user_id'] = auth()->id();
+
+
+        $favorite = auth()->user()->favorites()->create($validated);
+        return response()->json($favorite, 201);
+
     }
 
     /**

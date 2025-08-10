@@ -19,22 +19,19 @@ class VideoController extends Controller
 
     // Store new video
     public function store(Request $request)
-    {
-        $validated = $request->validate([
-            'title' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'url' => 'required|url',
-        ]);
-        $video = Video::create([
-            'title' => $validated['title'],
-            'description' => $validated['description'] ?? '',
-            'url' => $validated['url'],
-            'user_id' => auth()->id(), // logged-in user
+{
+    $validated = $request->validate([
+        'title' => 'required|string|max:255',
+        'description' => 'nullable|string',
+        'url' => 'required|string', // or 'file' if uploading
     ]);
 
+    $validated['user_id'] = auth()->id();
 
-        return response()->json($video, 201);
-    }
+    $video = Video::create($validated);
+
+    return response()->json($video, 201);
+}
 
     // Show single video
     public function show($id)
