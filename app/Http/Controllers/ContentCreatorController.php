@@ -2,47 +2,46 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ContentCreator;
 use Illuminate\Http\Request;
 
 class ContentCreatorController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        return ContentCreator::all();
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $data = $request->validate([
+            'user_id' => 'required|exists:users,id',
+            'channel_name' => 'required|string|max:255',
+            'bio' => 'nullable|string',
+        ]);
+
+        return ContentCreator::create($data);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function show(ContentCreator $contentCreator)
     {
-        //
+        return $contentCreator;
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function update(Request $request, ContentCreator $contentCreator)
     {
-        //
+        $data = $request->validate([
+            'channel_name' => 'sometimes|string|max:255',
+            'bio' => 'nullable|string',
+        ]);
+
+        $contentCreator->update($data);
+        return $contentCreator;
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    public function destroy(ContentCreator $contentCreator)
     {
-        //
+        $contentCreator->delete();
+        return response()->noContent();
     }
 }
