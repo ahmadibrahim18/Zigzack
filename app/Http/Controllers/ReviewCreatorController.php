@@ -11,7 +11,10 @@ class ReviewCreatorController extends Controller
      */
     public function index()
     {
-        //
+
+        // This method should return a list of reviews for content creators
+        return Review::where('content_creator_id', $contentCreatorId)->get();
+
     }
 
     /**
@@ -19,7 +22,13 @@ class ReviewCreatorController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->validate([
+            'content_creator_id' => 'required|exists:content_creators,id',
+            'rating' => 'required|integer|min:1|max:5',
+            'comment' => 'nullable|string',
+        ]);
+
+        return Review::create($data);
     }
 
     /**
@@ -27,7 +36,7 @@ class ReviewCreatorController extends Controller
      */
     public function show(string $id)
     {
-        //
+        return Review::findOrFail($id);
     }
 
     /**
@@ -35,7 +44,15 @@ class ReviewCreatorController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $data = $request->validate([
+            'content_creator_id' => 'required|exists:content_creators,id',
+            'rating' => 'required|integer|min:1|max:5',
+            'comment' => 'nullable|string',
+        ]);
+
+        $review = Review::findOrFail($id);
+        $review->update($data);
+        return $review;
     }
 
     /**
@@ -43,6 +60,8 @@ class ReviewCreatorController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $review = Review::findOrFail($id);
+        $review->delete();
+        return response()->noContent();
     }
 }
