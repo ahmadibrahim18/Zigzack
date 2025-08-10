@@ -9,59 +9,51 @@ class ReviewCreatorController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
-    {
+ public function index()
+{
+    return response()->json(Review::all());
+}
 
-        // This method should return a list of reviews for content creators
-        return Review::where('content_creator_id', $contentCreatorId)->get();
+public function store(Request $request)
+{
+    $request->validate([
+        'user_id' => 'required|exists:users,id',
+        'content_id' => 'required|integer',  // id of content being reviewed (video, playlist, etc.)
+        'rating' => 'required|integer|min:1|max:5',
+        'comment' => 'nullable|string',
+    ]);
 
+    $review = Review::create($request->all());
+    return response()->json($review, 201);
+}
+
+public function show($id)
+{
+    $review = Review::find($id);
+    if (!$review) {
+        return response()->json(['message' => 'Review not found'], 404);
     }
+    return response()->json($review);
+}
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        $data = $request->validate([
-            'content_creator_id' => 'required|exists:content_creators,id',
-            'rating' => 'required|integer|min:1|max:5',
-            'comment' => 'nullable|string',
-        ]);
-
-        return Review::create($data);
+public function update(Request $request, $id)
+{
+    $review = Review::find($id);
+    if (!$review) {
+        return response()->json(['message' => 'Review not found'], 404);
     }
+    $review->update($request->all());
+    return response()->json($review);
+}
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        return Review::findOrFail($id);
+public function destroy($id)
+{
+    $review = Review::find($id);
+    if (!$review) {
+        return response()->json(['message' => 'Review not found'], 404);
     }
+    $review->delete();
+    return response()->json(['message' => 'Review deleted']);
+}
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        $data = $request->validate([
-            'content_creator_id' => 'required|exists:content_creators,id',
-            'rating' => 'required|integer|min:1|max:5',
-            'comment' => 'nullable|string',
-        ]);
-
-        $review = Review::findOrFail($id);
-        $review->update($data);
-        return $review;
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        $review = Review::findOrFail($id);
-        $review->delete();
-        return response()->noContent();
-    }
 }

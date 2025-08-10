@@ -9,57 +9,52 @@ class SubscriptionController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
-    {
-        //
-        // This method should return a list of subscriptions
-        return Subscription::all();
+   public function index()
+{
+    return response()->json(Subscription::all());
+}
+
+public function store(Request $request)
+{
+    $request->validate([
+        'user_id' => 'required|exists:users,id',
+        'plan_name' => 'required|string',
+        'start_date' => 'required|date',
+        'end_date' => 'nullable|date',
+        'status' => 'required|string',
+    ]);
+
+    $subscription = Subscription::create($request->all());
+    return response()->json($subscription, 201);
+}
+
+public function show($id)
+{
+    $subscription = Subscription::find($id);
+    if (!$subscription) {
+        return response()->json(['message' => 'Subscription not found'], 404);
     }
+    return response()->json($subscription);
+}
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-        $data = $request->validate([
-            'user_id' => 'required|exists:users,id',
-            'content_creator_id' => 'required|exists:content_creators,id',
-        ]);
-
-        return Subscription::create($data);
+public function update(Request $request, $id)
+{
+    $subscription = Subscription::find($id);
+    if (!$subscription) {
+        return response()->json(['message' => 'Subscription not found'], 404);
     }
+    $subscription->update($request->all());
+    return response()->json($subscription);
+}
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        return Subscription::findOrFail($id);
+public function destroy($id)
+{
+    $subscription = Subscription::find($id);
+    if (!$subscription) {
+        return response()->json(['message' => 'Subscription not found'], 404);
     }
+    $subscription->delete();
+    return response()->json(['message' => 'Subscription deleted']);
+}
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        $data = $request->validate([
-            'user_id' => 'sometimes|exists:users,id',
-            'content_creator_id' => 'sometimes|exists:content_creators,id',
-        ]);
-
-        $subscription = Subscription::findOrFail($id);
-        $subscription->update($data);
-        return $subscription;
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        $subscription = Subscription::findOrFail($id);
-        $subscription->delete();
-        return response()->noContent();
-    }
 }
