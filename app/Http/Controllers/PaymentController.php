@@ -20,22 +20,25 @@ class PaymentController extends Controller
 public function store(Request $request)
 {
     $request->validate([
-        'user_id' => 'required|exists:users,id',
-        'subscription_id' => 'required|exists:subscriptions,id',
+        'user_name' => 'required|exists:users,id',
+        'plan' => 'required|exists:subscriptions,id',
         'amount' => 'required|numeric',
         'payment_method' => 'required|string',
         'status' => 'required|string',
     ]);
 
     $payment = Payment::create([
-        'user_id' => $request->user_id,
-        'subscription_id' => $request->subscription_id,
+        'user_name' => $request->user_name,
+        'plan' => $request->plan,
         'amount' => $request->amount,
         'payment_method' => $request->payment_method,
         'status' => $request->status,
     ]);
 
+    
+
     return response()->json([
+        
         'message' => 'Payment created successfully',
         'payment' => $payment,
     ], 201);

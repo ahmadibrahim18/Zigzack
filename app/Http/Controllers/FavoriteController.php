@@ -16,6 +16,8 @@ class FavoriteController extends Controller
     public function index()
     {
         //
+        $favorites = auth()->user()->favorites()->with('video')->get();
+        return response()->json($favorites);
     }
 
     /**
@@ -25,14 +27,18 @@ class FavoriteController extends Controller
     {
         //
         $validated = $request->validate([
-            'user_id' => 'required|exists:users,id',
-            'video_id' => 'required|exists:videos,id',
+            'user_name' => 'required|exists:users,username',
+            'title' => 'required|exists:videos,title',
             'favorited_at' => 'nullable|date',
         ]);
         $validated['user_id'] = auth()->id();
-
+        
+        if (auth()->user()->favorites()->where('video_id', $validated['video_id'])->exists()) {
+            return response()->json(['message' => 'Video is already favorited'], 409);
+        }
 
         $favorite = auth()->user()->favorites()->create($validated);
+
         return response()->json($favorite, 201);
 
     }

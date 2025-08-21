@@ -17,8 +17,8 @@ class ReviewCreatorController extends Controller
 public function store(Request $request)
 {
     $request->validate([
-        'user_id' => 'required|exists:users,id',
-        'content_id' => 'required|integer',  // id of content being reviewed (video, playlist, etc.)
+        'user_name' => 'required|exists:users,id',
+        'channel_name' => 'required|integer',  // id of content being reviewed (video, playlist, etc.)
         'rating' => 'required|integer|min:1|max:5',
         'comment' => 'nullable|string',
     ]);

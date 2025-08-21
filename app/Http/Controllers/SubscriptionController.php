@@ -19,8 +19,8 @@ class SubscriptionController extends Controller
 public function store(Request $request)
 {
     $validated = $request->validate([
-        'user_id' => 'required|exists:users,id',
-        'content_creator_id' => 'required|exists:content_creators,id',
+        'username' => 'required|exists:users,username',
+        'channel_name' => 'required|exists:content_creators,id',
         'plan' => 'required|string',
         'price' => 'required|numeric',
         'starts_at' => 'nullable|date',
@@ -28,8 +28,8 @@ public function store(Request $request)
     ]);
 
     $subscription = Subscription::create([
-        'user_id' => $validated['user_id'],
-        'content_creator_id' => $validated['content_creator_id'],
+        'username' => $validated['username'],
+        'channel_name' => $validated['channel_name'],
         'plan' => $validated['plan'],  // Make sure this is here!
         'price' => $validated['price'],
         'starts_at' => $validated['starts_at'] ?? null,

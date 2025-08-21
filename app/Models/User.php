@@ -18,11 +18,10 @@ class User extends Authenticatable
      * @var list<string>
      */
     protected $fillable = [
-        'name',
+        'username',
         'email',
-        'password',
+        'password'
     ];
-
     /**
      * The attributes that should be hidden for serialization.
      *
@@ -44,11 +43,16 @@ class User extends Authenticatable
         return $this->belongsToMany(Video::class, 'history')->withTimestamps();
     }
 
-   public function favorites()
-    {
-    return $this->belongsToMany(Video::class, 'favorites', 'user_id', 'video_id')
-                ->withTimestamps();
+//    public function favorites()
+//     {
+//     return $this->belongsToMany(Video::class, 'favorites', 'user_id', 'video_id')
+//                 ->withTimestamps();
+//     }
+
+    public function favorites(){
+        return $this->hasMany(Favorite::class);
     }
+
     public function subscriptions()
     {
      return $this->hasMany(Subscription::class);

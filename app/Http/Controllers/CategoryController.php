@@ -31,6 +31,13 @@ class CategoryController extends Controller
 
         $category = Category::create($validated);
 
+        // Optionally, you can associate videos with this category
+        if ($request->has('video_ids')) {
+            $category->videos()->attach($request->video_ids);
+        }
+
+        
+
         return response()->json($category, 201);
     }
 

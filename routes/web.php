@@ -14,3 +14,4 @@ Route::post('/logout', function () {
 Route::get('/', function () {
     return view('welcome');
 });
+

@@ -29,7 +29,15 @@ class UserController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8',
+            
         ]);
+        if (User::where('name', $request->name)->exists()) {
+            throw ValidationException::withMessages(['name' => 'The name has already been taken.']);
+        }
+
+        if (User::where('email', $request->email)->exists()) {
+            throw ValidationException::withMessages(['email' => 'The email has already been taken.']);
+        }
 
         $user = User::create([
             'name' => $request->name,

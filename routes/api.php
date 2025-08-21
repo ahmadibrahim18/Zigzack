@@ -14,6 +14,7 @@ use App\Http\Controllers\ContentCreatorController;
 use App\Http\Controllers\SubscriptionController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\Api\AdminAuthController;
 use closure;
 
 class IsAdmin
@@ -36,21 +37,20 @@ Route::middleware('auth:sanctum')->group(function () {
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/users', [UserController::class, 'index']);      // Get all users
-    Route::get('/users/{id}', [UserController::class, 'show']);  // Get single user
+    Route::get('/users/{username}', [UserController::class, 'show']);  // Get single user
     Route::post('/users', [UserController::class, 'store']);     // Create user
-    Route::put('/users/{id}', [UserController::class, 'update']); // Update user
-    Route::delete('/users/{id}', [UserController::class, 'destroy']); // Delete user
+    Route::put('/users/{username}', [UserController::class, 'update']); // Update user
+    Route::delete('/users/{username}', [UserController::class, 'destroy']); // Delete user
 });
 Route::apiResource('users', UserController::class);
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('videos', VideoController::class);
     Route::get('/videos', [VideoController::class, 'index']); // Get all videos
-    Route::get('/videos/{id}', [VideoController::class, 'show']); // Get single video
-    Route::put('/videos/{id}', [VideoController::class, 'update']); // Update video
-    Route::delete('/videos/{id}', [VideoController::class, 'destroy']); // Delete video
+    Route::get('/videos/{title}', [VideoController::class, 'show']); // Get single video
+    Route::put('/videos/{title}', [VideoController::class, 'update']); // Update video
+    Route::delete('/videos/{title}', [VideoController::class, 'destroy']); // Delete video
 
-    
 });
 
 Route::middleware('auth:sanctum')->group(function () {
@@ -58,15 +58,15 @@ Route::middleware('auth:sanctum')->group(function () {
     
     Route::post('/playlists', [PlaylistController::class, 'store']);
     Route::get('/playlists', [PlaylistController::class, 'index']);
-    Route::get('/playlists/{id}', [PlaylistController::class, 'show']);
-    Route::put('/playlists/{id}', [PlaylistController::class, 'update']);
-    Route::delete('/playlists/{id}', [PlaylistController::class, 'destroy']);
+    Route::get('/playlists/{name}', [PlaylistController::class, 'show']);
+    Route::put('/playlists/{name}', [PlaylistController::class, 'update']);
+    Route::delete('/playlists/{name}', [PlaylistController::class, 'destroy']);
 
 });
 
 Route::middleware('auth:sanctum')->group(function () {
-    Route::post('/playlists/{id}/videos', [Playlist_videoController::class, 'store']);
-    Route::delete('/playlists/{id}/videos/{videoId}', [Playlist_videoController::class, 'destroy']);
+    Route::post('/playlists/{name}/videos', [Playlist_videoController::class, 'store']);
+    Route::delete('/playlists/{name}/videos/{videoId}', [Playlist_videoController::class, 'destroy']);
 });
 
 Route::middleware(['auth:sanctum'])->group(function () {
@@ -115,12 +115,12 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('/payments/{id}', [PaymentController::class, 'update']);
     Route::delete('/payments/{id}', [PaymentController::class, 'destroy']);
 
-    // // Reviews
-    // Route::get('/reviews', [ReviewController::class, 'index']);
-    // Route::post('/reviews', [ReviewController::class, 'store']);
-    // Route::get('/reviews/{id}', [ReviewController::class, 'show']);
-    // Route::put('/reviews/{id}', [ReviewController::class, 'update']);
-    // Route::delete('/reviews/{id}', [ReviewController::class, 'destroy']);
+    // Reviews
+    Route::get('/reviews', [ReviewController::class, 'index']);
+    Route::post('/reviews', [ReviewController::class, 'store']);
+    Route::get('/reviews/{id}', [ReviewController::class, 'show']);
+    Route::put('/reviews/{id}', [ReviewController::class, 'update']);
+    Route::delete('/reviews/{id}', [ReviewController::class, 'destroy']);
 
     // Subscriptions
     Route::get('/subscriptions', [SubscriptionController::class, 'index']);
@@ -129,6 +129,24 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('/subscriptions/{id}', [SubscriptionController::class, 'update']);
     Route::delete('/subscriptions/{id}', [SubscriptionController::class, 'destroy']);
 });
+
+
+
+// Public
+
+   Route::prefix('admin')->group(function () {
+
+    // Public admin routes
+    Route::post('/register', [AdminAuthController::class, 'register']);
+    Route::post('/login', [AdminAuthController::class, 'login']);
+
+    // Protected admin routes
+    Route::middleware('auth:admin')->group(function () {
+        Route::get('/me', [AdminAuthController::class, 'me']);
+        Route::post('/logout', [AdminAuthController::class, 'logout']);
+    });
+});
+
 
 
 

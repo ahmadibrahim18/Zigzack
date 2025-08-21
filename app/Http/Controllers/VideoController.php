@@ -41,9 +41,9 @@ class VideoController extends Controller
     }
 
     // Update video
-    public function update(Request $request, $id)
+    public function update(Request $request, $title)
     {
-        $video = Video::findOrFail($id);
+        $video = Video::where('title', $title)->firstOrFail();
 
         $validated = $request->validate([
             'title' => 'sometimes|string|max:255',
@@ -57,9 +57,9 @@ class VideoController extends Controller
     }
 
     // Delete video
-    public function destroy($id)
+    public function destroy($title)
     {
-        Video::findOrFail($id)->delete();
+        Video::where('title', $title)->firstOrFail()->delete();
         return response()->json(['message' => 'Video deleted'], 200);
     }
 
